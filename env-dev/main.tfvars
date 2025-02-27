@@ -30,7 +30,7 @@ app_servers = {
 
 env = "dev"
 
-Database_servers= {
+database_servers= {
 
   mongodb = {
     name          = "mongodb"
