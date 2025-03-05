@@ -1,7 +1,16 @@
+# terraform {
+#   required_providers {
+#     aws = {
+#       source  = "hashicorp/aws"
+#       version = "5.54.1"
+#     }
+#   }
+# }
 resource "aws_instance" "instance" {
   ami                    = data.aws_ami.centos.image_id
   instance_type          = var.instance_type
   vpc_security_group_ids = [data.aws_security_group.launch-wizard-6.id]
+  iam_instance_profile = aws_iam_instance_profile.instance_profile.name
 
   tags = {
     Name = local.name
@@ -50,6 +59,10 @@ resource "aws_iam_role" "role" {
   tags = {
     Name = "${var.component_name}-${var.env}-role"
   }
+}
+resource "aws_iam_instance_profile" "instance_profile" {
+  name= "${var.component_name}-${var.env}-role"
+  role=aws_iam_role.role.name
 }
 
 resource "aws_iam_policy" "ssm-ps-policy" {
