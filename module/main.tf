@@ -36,5 +36,9 @@ resource "aws_route53_record" "records" {
   type     = "A"
   ttl      = 30
   records  = [aws_instance.instance.private_ip]
+  # The lifecycle argument is useful if you need to ensure the new record is created first.
+  lifecycle {
+    create_before_destroy = true
+  }
 
 }
