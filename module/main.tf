@@ -30,29 +30,24 @@ resource "aws_route53_record" "records" {
   type     = "A"
   ttl      = 30
   records  = [aws_instance.instance.private_ip]
-  # The lifecycle argument is useful if you need to ensure the new record is created first.
-  lifecycle {
-    create_before_destroy = true
-  }
-
 }
 
 resource "aws_iam_role" "role" {
-  name = "${var.component_name}-${var.env}-role"
+  name               = "${var.component_name}-${var.env}-role"
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        Action = "sts: AssumeRole"
-        Effect = "Allow"
-        Sid    = ""
+        Action    = "sts:AssumeRole"
+        Effect    = "Allow"
         Principal = {
           Service = "ec2.amazonaws.com"
         }
-      },
+      }
     ]
   })
+
   tags = {
-    tag-key = "${var.component_name}-${var.env}-role"
+    Name = "${var.component_name}-${var.env}-role"
   }
 }
