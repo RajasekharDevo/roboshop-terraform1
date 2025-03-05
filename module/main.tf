@@ -25,10 +25,7 @@ resource "null_resource" "provisioner" {
       "git clone https://github.com/RajasekharDevo/roboshop-shell",
       "cd roboshop-shell",
       "sudo bash ${var.component_name}.sh ${var.password}"
-      # The lifecycle argument is useful if you need to ensure the new record is created first.
-      lifecycle {
-        create_before_destroy = true
-      }
+
     ]
   }
 }
